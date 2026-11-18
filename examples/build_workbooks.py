@@ -25,6 +25,7 @@ WORKBOOKS = (
     "value-add-acquisition.xlsx",
     "multifamily-development.xlsx",
     "seattle-multifamily-development.xlsx",
+    "lihtc-sources-uses.xlsx",
 )
 
 
@@ -47,12 +48,15 @@ def build(out: Path) -> list[Path]:
     from openhouse_development import seattle, seattle_example
     from openhouse_valuation.example import example_deal, example_inputs
     from openhouse_valuation.workbook import write_workbook
+    from openhouse_tax_credit.example import example_deal as lihtc_deal, example_inputs as lihtc_inputs
+    from openhouse_tax_credit.workbook import write_workbook as write_lihtc
 
     out.mkdir(parents=True, exist_ok=True)
     paths = [out / name for name in WORKBOOKS]
     write_workbook(example_deal(), example_inputs(), str(paths[0]), sponsor=SPONSOR)
     write_development(development_deal(), development_inputs(), str(paths[1]))
     seattle.write_workbook(seattle_example.example_deal(), seattle_example.example_inputs(), str(paths[2]))
+    write_lihtc(lihtc_deal(), lihtc_inputs(), str(paths[3]))
     for path in paths:
         normalize(path)
     return paths

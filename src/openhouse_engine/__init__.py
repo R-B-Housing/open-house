@@ -1,4 +1,4 @@
-"""Open House model engine: dimensional models as code, evaluated to runs."""
+"""Model engine: dimensional models as code, evaluated to runs."""
 
 from .calendar import annual_calendar, excel_serial, monthly_calendar
 from .evaluate import ENGINE, EngineError, Run, evaluate

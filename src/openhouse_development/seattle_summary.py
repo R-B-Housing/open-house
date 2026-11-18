@@ -245,7 +245,7 @@ def write_summary(compiled, run: Run, deal, model, inputs, *, prepared: date | N
         'Feasibility measures are before income taxes. A project typically needs a return above its investors\' required '
         'return to be built; the program choice that keeps a project feasible delivers more homes than one that stops it.',
         'Every input has a recorded source or stated assumption on the Input Basis sheet when the workbook comes from a '
-        'saved model file run. Program rules: SMC 5.73 (MFTE Program 7, Ord. 127316) and SMC 23.58C (MHA).',
+        'saved model run. Program rules: SMC 5.73 (MFTE Program 7, Ord. 127316) and SMC 23.58C (MHA).',
     )
     for text in notes:
         cell = ws.cell(row, 2)
