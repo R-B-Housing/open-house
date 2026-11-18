@@ -7,7 +7,7 @@ LINES = (('hard', 'Construction (hard costs)'), ('soft', 'Architecture, engineer
 
 
 def example_deal():
-    return TaxCreditDeal('lihtc', 'Synthetic LIHTC project', 'Testville, WA', tuple(CostLine(k, label) for k, label in LINES))
+    return TaxCreditDeal('lihtc_sources_uses', 'Synthetic LIHTC project', 'Testville, WA', tuple(CostLine(k, label) for k, label in LINES))
 
 
 def example_inputs():

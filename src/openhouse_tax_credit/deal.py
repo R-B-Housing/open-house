@@ -20,7 +20,7 @@ def read_deal(value):
     if not isinstance(value, dict) or set(value) != {f.name for f in fields(TaxCreditDeal)}:
         raise ValueError('Every tax credit structure field is required.')
     data = dict(value)
-    if data['kind'] != 'lihtc':
+    if data['kind'] != 'lihtc_sources_uses':
         raise ValueError('Invalid tax credit kind.')
     rows = data['cost_lines']
     if not isinstance(rows, list) or not 1 <= len(rows) <= 50:

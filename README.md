@@ -68,7 +68,7 @@ walkthrough, example requests, and how to check the agent's work.
 | Value-add acquisition | `value-add-acquisition` 0.5.0 | Unit-type cohorts, line-item operating budget, closing costs, phased capital budget, senior and subordinate debt (including an assumed loan), refinance, sale, LP/GP waterfall, commercial space |
 | Multifamily development | `multifamily-development` 0.2.0 | Ground-up: development budget, construction draws and interest, lease-up, loan sizing, funding gaps, waterfall |
 | Seattle development | `seattle-multifamily-development` 0.1.0 | The development model plus Seattle's MFTE (Program 7) tax exemption and MHA payment or performance, each toggled, with property tax and policy outcomes; see [the program rules](docs/seattle-mfte-mha.md) |
-| LIHTC sources and uses | `lihtc-sources-uses` 0.1.0 | Federal LIHTC sizing: eligible basis by cost line, applicable fraction, high-cost boost, 4% or 9% credits (with the competitive award cap), equity, funding gap, bond test; see [how it works](docs/lihtc.md) |
+| LIHTC sources and uses | `lihtc-sources-uses` 0.1.0 | Federal LIHTC sizing: eligible basis by cost line, applicable fraction, high-cost boost, 4% or 9% credits (with the competitive award cap), equity, funding gap, bond test; see [how it works](docs/lihtc-sources-uses.md) |
 
 The models are used to underwrite real deals and change often. A changed
 formula changes the model's version.

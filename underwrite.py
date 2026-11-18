@@ -41,11 +41,11 @@ MODELS = {
     "value-add-acquisition": ("value_add", "Value-add acquisition: market-rate or mixed-income, renovation, refinance, sale, LP/GP waterfall"),
     "multifamily-development": ("development", "Multifamily development: ground-up budget, construction loan, lease-up, waterfall"),
     "seattle-multifamily-development": ("seattle_development", "Seattle development: ground-up with MFTE and MHA (payment or performance) toggles and policy outcomes"),
-    "lihtc-sources-uses": ("lihtc", "LIHTC sources and uses: eligible and qualified basis, 4% or 9% credits, equity and funding gap"),
+    "lihtc-sources-uses": ("lihtc_sources_uses", "LIHTC sources and uses: eligible and qualified basis, 4% or 9% credits, equity and funding gap"),
 }
 ALIASES = {"value-add": "value-add-acquisition",
            "development": "multifamily-development", "seattle": "seattle-multifamily-development",
-           "lihtc": "lihtc-sources-uses", "tax-credit": "lihtc-sources-uses"}
+           "tax-credit": "lihtc-sources-uses"}
 # Figures printed after check and run, when the model has them (the workbook shows them all).
 ACQUISITION = ("total_uses", "senior.amount", "senior.ltv_amount", "senior.dscr_amount", "equity_at_close", "price_per_unit", "going_in_cap_rate", "yield_on_cost",
                "sale.price", "equity_multiple", "lp_multiple", "levered_profit", "capital_calls_after_close")
@@ -55,7 +55,7 @@ HEADLINES = {
     "seattle_development": ("project_cost", "mha.payment", "policy.restricted_homes", "policy.rent_savings",
                             "policy.mfte_exemption_annual", "policy.mfte_exemption_term", "policy.yield_on_cost",
                             "peak_equity", "total_funding_gap"),
-    "lihtc": ("total_development_cost", "basis.eligible", "basis.applicable_fraction", "basis.qualified", "credits.annual",
+    "lihtc_sources_uses": ("total_development_cost", "basis.eligible", "basis.applicable_fraction", "basis.qualified", "credits.annual",
               "credits.ten_year_total", "tax_credit_equity", "total_sources", "funding_gap", "funding_surplus", "bond_test.financed_share"),
 }
 SHOWN_ROWS = 40
@@ -97,7 +97,7 @@ def diagnose(operation: str, snapshot: dict, context: dict) -> str:
             from openhouse_development.deal import read_deal
             from openhouse_development.seattle import build_model, write_workbook
             deal = read_deal(snapshot["deal"], kind)
-        elif kind == "lihtc":
+        elif kind == "lihtc_sources_uses":
             from openhouse_tax_credit.deal import read_deal
             from openhouse_tax_credit.model import build_model
             from openhouse_tax_credit.workbook import write_workbook
@@ -132,7 +132,7 @@ def example(model: str) -> dict:
         from openhouse_valuation.example import example_deal, example_inputs
     elif kind == "seattle_development":
         from openhouse_development.seattle_example import example_deal, example_inputs
-    elif kind == "lihtc":
+    elif kind == "lihtc_sources_uses":
         from openhouse_tax_credit.example import example_deal, example_inputs
     else:
         from openhouse_development.example import example_deal, example_inputs

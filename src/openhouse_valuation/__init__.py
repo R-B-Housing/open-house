@@ -1,4 +1,4 @@
-"""Composable value-add acquisition model on the Open House model engine."""
+"""Composable value-add acquisition model on the shared model engine."""
 
 from .deal import (
     STANDARD_CLOSING_COSTS, CapexLine, CapexPhase, ClosingCost, Cohort, Deal, OpexLine, Tranche, UnitType,
