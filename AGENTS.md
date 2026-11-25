@@ -162,6 +162,7 @@ the user's deal folder, never in this repository.
 | `value-add-acquisition` | Existing market-rate or mixed-income property: rent growth, renovation premiums, senior and subordinate loans, refinance, sale, LP/GP waterfall. Commercial space supported. | `src/openhouse_valuation/deal.py`, `src/openhouse_valuation/example.py` |
 | `multifamily-development` | Ground-up market-rate development: budget, construction draws and interest, lease-up, permanent loan, waterfall | `src/openhouse_development/deal.py`, `src/openhouse_development/example.py` |
 | `seattle-multifamily-development` | Ground-up development in Seattle that may use the MFTE tax exemption or must meet MHA (payment or performance): program toggles, restricted homes and rents, property tax, policy outcomes. Read [the program rules](docs/seattle-mfte-mha.md) and cite current City sources for every program input. | `src/openhouse_development/seattle.py`, `src/openhouse_development/seattle_example.py` |
+| `lihtc-sources-uses` | First look at a LIHTC deal: eligible and qualified basis, 4% or 9% credits, tax credit equity and the funding gap. No schedule, operations or returns. Read [how it works](docs/lihtc-sources-uses.md) and cite current sources for the boost, credit rate, bond test and credit price. | `src/openhouse_tax_credit/model.py`, `src/openhouse_tax_credit/example.py` |
 
 If the deal fits none of them, say so and suggest the closest.
 

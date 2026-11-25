@@ -73,7 +73,7 @@ def serialize(run, model):
 
 
 def limit_resources():
-    """Cap CPU time and memory. Required on Linux, where a host may sandbox the service;
+    """Cap CPU time and memory. Required on Linux, where the service runs sandboxed;
     best effort elsewhere (macOS rejects the memory cap, Windows has neither)."""
     if resource is None:
         return
@@ -101,6 +101,10 @@ def main():
             from openhouse_development.deal import read_deal as read_structure
             from openhouse_development.model import build_model as assemble
             from openhouse_development.workbook import write_workbook as render
+        elif snapshot['deal'].get('kind') == 'lihtc_sources_uses':
+            from openhouse_tax_credit.deal import read_deal as read_structure
+            from openhouse_tax_credit.model import build_model as assemble
+            from openhouse_tax_credit.workbook import write_workbook as render
         elif snapshot['deal'].get('kind') == 'seattle_development':
             from openhouse_development.deal import read_deal as read_development
             from openhouse_development.seattle import build_model as assemble, write_workbook as render

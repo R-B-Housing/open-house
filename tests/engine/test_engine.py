@@ -1,4 +1,4 @@
-"""Behavioural tests for the Open House model engine."""
+"""Behavioural tests for the shared model engine."""
 
 from decimal import Decimal
 import unittest
