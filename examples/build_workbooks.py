@@ -9,6 +9,7 @@ bytes. The committed copies in workbooks/ are produced by this script.
 """
 from __future__ import annotations
 
+import base64
 import io
 import os
 import re
@@ -21,11 +22,16 @@ FIXED = "2000-01-01T00:00:00Z"
 # The "Prepared" date on overview sheets; bump it when the examples change materially.
 os.environ["SOURCE_DATE_EPOCH"] = "1794182400"  # 2026-11-09
 SPONSOR = "Synthetic example"
+LIHTC_WORKBOOKS = {
+    "lihtc": "lihtc-acquisition-rehab.xlsx",
+    "lihtc_new_construction": "lihtc-new-construction.xlsx",
+}
 WORKBOOKS = (
     "value-add-acquisition.xlsx",
     "multifamily-development.xlsx",
     "seattle-multifamily-development.xlsx",
     "lihtc-sources-uses.xlsx",
+    *LIHTC_WORKBOOKS.values(),
 )
 
 
@@ -51,12 +57,18 @@ def build(out: Path) -> list[Path]:
     from openhouse_tax_credit.example import example_deal as lihtc_deal, example_inputs as lihtc_inputs
     from openhouse_tax_credit.workbook import write_workbook as write_lihtc
 
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from underwrite import service
+
     out.mkdir(parents=True, exist_ok=True)
     paths = [out / name for name in WORKBOOKS]
     write_workbook(example_deal(), example_inputs(), str(paths[0]), sponsor=SPONSOR)
     write_development(development_deal(), development_inputs(), str(paths[1]))
     seattle.write_workbook(seattle_example.example_deal(), seattle_example.example_inputs(), str(paths[2]))
     write_lihtc(lihtc_deal(), lihtc_inputs(), str(paths[3]))
+    for kind, name in LIHTC_WORKBOOKS.items():
+        snapshot = service("describe", {"deal": {"kind": kind}, "inputs": {}})["exampleSnapshot"]
+        (out / name).write_bytes(base64.b64decode(service("run", snapshot)["workbookBase64"]))
     for path in paths:
         normalize(path)
     return paths

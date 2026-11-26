@@ -2,8 +2,8 @@
 
 Multifamily underwriting models that build Excel workbooks with live formulas:
 value-add acquisitions and ground-up development (including a Seattle version
-with the MFTE and MHA affordability programs), and a simple low-income housing
-tax credit (LIHTC) sources and uses.
+with the MFTE and MHA affordability programs), and low-income housing tax credit
+(LIHTC) acquisition/rehab and new construction.
 
 Open House generates live Excel formulas from the same model it runs in Python. We
 test that the two produce matching results, so the workbook is not a pasted
@@ -12,8 +12,9 @@ copy of the numbers. It is the model itself, and you can trace and change it.
 ## Try a model in Excel
 
 Download a model, open it in desktop Excel, and change a blue input to see the
-related calculations update. Start on the **Assumptions** sheet; some models
-have blue inputs on other sheets too. Every
+related calculations update. For the full LIHTC models, start on **Summary**
+and look for blue cells on the **Inputs** sheets. For the other models, start
+on **Assumptions**. Every
 deal in these files is invented.
 
 | Download | What it shows |
@@ -21,6 +22,8 @@ deal in these files is invented.
 | [Value-add acquisition](https://raw.githubusercontent.com/R-B-Housing/open-house/main/workbooks/value-add-acquisition.xlsx) | 64-unit mixed-income property: market-rate, 60% AMI and Section 8 units, interior renovations at turnover, refinance in year 3, sale in year 5, LP/GP waterfall |
 | [Multifamily development](https://raw.githubusercontent.com/R-B-Housing/open-house/main/workbooks/multifamily-development.xlsx) | 40-unit ground-up project: development budget, construction draws and interest, lease-up, permanent loan, funding gap, LP/GP waterfall |
 | [Seattle development with MFTE and MHA](https://raw.githubusercontent.com/R-B-Housing/open-house/main/workbooks/seattle-multifamily-development.xlsx) | 120-home Seattle mid-rise that opens on an Executive Summary comparing six program choices (none, MHA payment or performance, MFTE, and both): affordable homes, tenant rent savings, the City's MHA payment and MFTE tax exemption, and feasibility |
+| [LIHTC acquisition/rehab](https://raw.githubusercontent.com/R-B-Housing/open-house/main/workbooks/lihtc-acquisition-rehab.xlsx) | 24-unit acquisition with a 12-month rehab and 15-year forecast, construction and permanent financing, partner tax benefits, investor buyout and IRR |
+| [LIHTC new construction](https://raw.githubusercontent.com/R-B-Housing/open-house/main/workbooks/lihtc-new-construction.xlsx) | California 4% bond deal with federal and state credits, permanent and gap loan sizing, annual cash flow, deferred developer fee and residual receipts |
 | [LIHTC sources and uses](https://raw.githubusercontent.com/R-B-Housing/open-house/main/workbooks/lihtc-sources-uses.xlsx) | 80-unit bond-financed (4%) project: eligible and qualified basis with the high-cost boost, annual and ten-year credits, tax credit equity, the funding gap and the bond test |
 
 Excel recalculates each file when it opens it. If Excel opens it in Protected
@@ -68,7 +71,11 @@ walkthrough, example requests, and how to check the agent's work.
 | Value-add acquisition | `value-add-acquisition` 0.5.0 | Unit-type cohorts, line-item operating budget, closing costs, phased capital budget, senior and subordinate debt (including an assumed loan), refinance, sale, LP/GP waterfall, commercial space |
 | Multifamily development | `multifamily-development` 0.2.0 | Ground-up: development budget, construction draws and interest, lease-up, loan sizing, funding gaps, waterfall |
 | Seattle development | `seattle-multifamily-development` 0.1.0 | The development model plus Seattle's MFTE (Program 7) tax exemption and MHA payment or performance, each toggled, with property tax and policy outcomes; see [the program rules](docs/seattle-mfte-mha.md) |
+| LIHTC acquisition/rehab | `lihtc-acquisition-rehab` 12.0.0 | Monthly rehab costs, loan draws and conversion, equity installments, operating cash flow, reserves, credits, partner allocations and investor returns |
+| LIHTC new construction | `lihtc-new-construction` 0.1.0 | California 4% bond and state credit sizing, unit mix, development and operating budgets, loan sizing, annual cash flow and residual receipts |
 | LIHTC sources and uses | `lihtc-sources-uses` 0.1.0 | Federal LIHTC sizing: eligible basis by cost line, applicable fraction, high-cost boost, 4% or 9% credits (with the competitive award cap), equity, funding gap, bond test; see [how it works](docs/lihtc-sources-uses.md) |
+
+See the [LIHTC guide](docs/lihtc-underwriting.md) for the sample workflows and input format.
 
 The models are used to underwrite real deals and change often. A changed
 formula changes the model's version.
@@ -130,6 +137,8 @@ needs `openpyxl`; parity checks also need `pycel`
 | Value-add | `openhouse_valuation.example` | `openhouse_valuation.workbook.write_workbook` |
 | Development | `openhouse_development.example` | `openhouse_development.workbook.write_workbook` |
 | Seattle development | `openhouse_development.seattle_example` | `openhouse_development.seattle.write_workbook` |
+| LIHTC acquisition/rehab | `openhouse_valuation.lihtc.example_snapshot` | `openhouse_valuation.lihtc.compile_report` |
+| LIHTC new construction | `openhouse_valuation.lihtc_new_construction.example_snapshot` | `openhouse_valuation.lihtc_new_construction.compile_report` |
 | LIHTC sources and uses | `openhouse_tax_credit.example` | `openhouse_tax_credit.workbook.write_workbook` |
 
 ### Python

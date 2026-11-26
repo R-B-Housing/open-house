@@ -30,7 +30,7 @@ jobs:
       - name: Underwrite command runs every model
         if: matrix.python-version == '3.12'
         run: |
-          for model in value-add-acquisition multifamily-development seattle-multifamily-development lihtc-sources-uses; do
+          for model in value-add-acquisition multifamily-development seattle-multifamily-development lihtc-sources-uses lihtc-acquisition-rehab lihtc-new-construction; do
             python underwrite.py new "$model" "$RUNNER_TEMP/$model/model.json"
             python underwrite.py run "$RUNNER_TEMP/$model/model.json"
             test -s "$RUNNER_TEMP/$model/model.xlsx"
@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          foreach ($model in "value-add-acquisition", "multifamily-development", "seattle-multifamily-development", "lihtc-sources-uses") {
+          foreach ($model in "value-add-acquisition", "multifamily-development", "seattle-multifamily-development", "lihtc-sources-uses", "lihtc-acquisition-rehab", "lihtc-new-construction") {
             $file = Join-Path $env:RUNNER_TEMP $model "model.json"
             python underwrite.py new $model $file
             if ($LASTEXITCODE) { exit $LASTEXITCODE }

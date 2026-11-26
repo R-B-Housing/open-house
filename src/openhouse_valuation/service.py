@@ -97,14 +97,23 @@ def main():
         snapshot = request['snapshot']
         if set(snapshot) != {'deal', 'inputs'} or not isinstance(snapshot['inputs'], dict):
             raise ValueError('Invalid snapshot.')
-        if snapshot['deal'].get('kind') == 'development':
-            from openhouse_development.deal import read_deal as read_structure
-            from openhouse_development.model import build_model as assemble
-            from openhouse_development.workbook import write_workbook as render
-        elif snapshot['deal'].get('kind') == 'lihtc_sources_uses':
+        if snapshot['deal'].get('kind') in ('lihtc', 'lihtc_new_construction'):
+            if snapshot['deal']['kind'] == 'lihtc':
+                from .lihtc import execute
+            else:
+                from .lihtc_new_construction import execute
+            result = execute(snapshot, request['operation'], request.get('context', {}), serialize)
+            sys.stdout.write(json.dumps({'contractVersion': '1', 'status': 'succeeded', 'result': result},
+                default=lambda v: format(v, 'f') if isinstance(v, Decimal) else str(v), separators=(',', ':')))
+            return
+        if snapshot['deal'].get('kind') == 'lihtc_sources_uses':
             from openhouse_tax_credit.deal import read_deal as read_structure
             from openhouse_tax_credit.model import build_model as assemble
             from openhouse_tax_credit.workbook import write_workbook as render
+        elif snapshot['deal'].get('kind') == 'development':
+            from openhouse_development.deal import read_deal as read_structure
+            from openhouse_development.model import build_model as assemble
+            from openhouse_development.workbook import write_workbook as render
         elif snapshot['deal'].get('kind') == 'seattle_development':
             from openhouse_development.deal import read_deal as read_development
             from openhouse_development.seattle import build_model as assemble, write_workbook as render

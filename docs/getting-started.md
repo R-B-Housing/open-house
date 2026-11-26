@@ -90,6 +90,8 @@ The agent reads the documents and picks one of the models:
 | Value-add acquisition | Existing market-rate or mixed-income property with renovation, refinance and sale |
 | Multifamily development | Ground-up construction |
 | Seattle development | Ground-up construction in Seattle with the MFTE and MHA affordability programs |
+| [LIHTC acquisition/rehab](lihtc-underwriting.md) | Existing affordable housing with rehabilitation, construction and permanent financing, and investor returns |
+| [LIHTC new construction](lihtc-underwriting.md) | Ground-up California 4% bond and state credit development with annual cash flow |
 
 The agent fills in the model from your documents, recording where each number
 came from. It then writes the files to an `underwriting` folder inside your

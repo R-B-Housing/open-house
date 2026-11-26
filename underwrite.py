@@ -41,11 +41,14 @@ MODELS = {
     "value-add-acquisition": ("value_add", "Value-add acquisition: market-rate or mixed-income, renovation, refinance, sale, LP/GP waterfall"),
     "multifamily-development": ("development", "Multifamily development: ground-up budget, construction loan, lease-up, waterfall"),
     "seattle-multifamily-development": ("seattle_development", "Seattle development: ground-up with MFTE and MHA (payment or performance) toggles and policy outcomes"),
+    "lihtc-acquisition-rehab": ("lihtc", "LIHTC acquisition/rehab: dated financing, cash flow, tax-credit equity and investor returns"),
+    "lihtc-new-construction": ("lihtc_new_construction", "LIHTC new construction: 4% bond and California state credit sizing, debt and operating cash flow"),
     "lihtc-sources-uses": ("lihtc_sources_uses", "LIHTC sources and uses: eligible and qualified basis, 4% or 9% credits, equity and funding gap"),
 }
 ALIASES = {"value-add": "value-add-acquisition",
            "development": "multifamily-development", "seattle": "seattle-multifamily-development",
            "tax-credit": "lihtc-sources-uses"}
+FULL_LIHTC_MODELS = ("lihtc", "lihtc_new_construction")
 # Figures printed after check and run, when the model has them (the workbook shows them all).
 ACQUISITION = ("total_uses", "senior.amount", "senior.ltv_amount", "senior.dscr_amount", "equity_at_close", "price_per_unit", "going_in_cap_rate", "yield_on_cost",
                "sale.price", "equity_multiple", "lp_multiple", "levered_profit", "capital_calls_after_close")
@@ -55,6 +58,11 @@ HEADLINES = {
     "seattle_development": ("project_cost", "mha.payment", "policy.restricted_homes", "policy.rent_savings",
                             "policy.mfte_exemption_annual", "policy.mfte_exemption_term", "policy.yield_on_cost",
                             "peak_equity", "total_funding_gap"),
+    "lihtc": ("uses.total_development_cost", "equity.commitment", "funding.maximum_gap",
+              "funding.shortfall_months", "funding.final_cash", "funding.final_debt_owed", "returns.annual_irr"),
+    "lihtc_new_construction": ("uses.total_development_cost", "credits.federal_annual", "credits.state_total",
+                               "equity.investor", "perm.amount", "soft.gap.amount", "fee.deferred",
+                               "soft.gap.surplus", "bond.test_ratio", "ddf.unpaid"),
     "lihtc_sources_uses": ("total_development_cost", "basis.eligible", "basis.applicable_fraction", "basis.qualified", "credits.annual",
               "credits.ten_year_total", "tax_credit_equity", "total_sources", "funding_gap", "funding_surplus", "bond_test.financed_share"),
 }
@@ -82,12 +90,16 @@ def service(operation: str, snapshot: dict, context: dict | None = None) -> dict
 
 def diagnose(operation: str, snapshot: dict, context: dict) -> str:
     """Repeat the service's operation in this process to recover the reason it withholds."""
+    import importlib
     import tempfile
     import traceback
     from openhouse_engine import evaluate
     from openhouse_valuation import service as engine
     kind = snapshot["deal"].get("kind")
     try:
+        if kind in FULL_LIHTC_MODELS:
+            importlib.import_module(f"openhouse_valuation.{kind}").execute(snapshot, operation, context, engine.serialize)
+            return ""
         if kind == "development":
             from openhouse_development.deal import read_deal
             from openhouse_development.model import build_model
@@ -128,6 +140,8 @@ def plain(value):
 
 def example(model: str) -> dict:
     kind = MODELS[model][0]
+    if kind in FULL_LIHTC_MODELS:
+        return service("describe", {"deal": {"kind": kind}, "inputs": {}})["exampleSnapshot"]
     if kind == "value_add":
         from openhouse_valuation.example import example_deal, example_inputs
     elif kind == "seattle_development":
